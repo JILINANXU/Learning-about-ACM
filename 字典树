@@ -1,0 +1,33 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define For(i,a,b) for(int i=(a);i<=(int)b;i++)
+#define ll long long
+const int N = 3e7+2e6+10;
+int n,m;
+string s;
+string a;
+inline void solve(){
+	cin>>n>>m;
+	map<string,int> mp;
+	For(i,1,n){
+		cin>>s;
+		a = "";
+		For(j,0,s.size()-1){
+			a += s[j];
+			mp[a]++;
+		} 
+	}
+	For(i,1,m){
+		cin>>a;
+		cout<<mp[a]<<'\n';
+	}
+	return;
+}
+int main(){
+	cin.tie(0);
+	cout.tie(0);
+	int T;
+	cin>>T;
+	while(T--) solve();
+	return 0;
+} 
