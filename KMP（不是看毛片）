@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define For(i,a,b) for(int i=(a);i<=(int)b;i++)
+#define ll long long
+const int N = 1e6+10;
+string s;
+string a;
+int nxt[N];
+queue<int> q;
+int main(){
+	cin>>s>>a;
+	int j = 0;
+	nxt[0] = 0; 
+	For(i,1,a.size()-1){
+		while(j>0&&a[i]!=a[j]) j = nxt[j-1];
+		if(a[i]==a[j]) j++;
+		nxt[i] = j;
+	}
+	j = 0;
+	For(i,0,s.size()-1){
+		while(j>0&&s[i]!=a[j]) j = nxt[j-1];
+		if(s[i]==a[j]) j++;
+		if(j==a.size()){
+			q.push(i-a.size()+2);
+			j = nxt[j-1];
+		}
+	}
+	while(q.size()){
+		printf("%d\n",q.front());
+		q.pop();
+	}
+	For(i,0,a.size()-1){
+		printf("%d ",nxt[i]);
+	}
+	return 0;
+} 
