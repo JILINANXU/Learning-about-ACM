@@ -1,0 +1,64 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define For(i,a,b) for(int i=(a);i<=(int)(b);i++)
+const int N=5e5+10;
+struct node{
+	int next,to;
+}q[N<<1];
+int num_edge=0,head[N<<1]={0},n,m,s,u,v,f[N<<1][30],deep[N<<1]={0},ans[N<<1]={0};
+inline void add_edge(int from,int to){
+	q[++num_edge].next=head[from];
+	q[num_edge].to=to;
+	head[from]=num_edge;
+}
+void dfs(int now,int fa,int dep){
+	f[now][0]=fa;
+	deep[now]=dep;
+	for(int i=head[now];i;i=q[i].next){
+		if(q[i].to^fa){
+			dfs(q[i].to,now,dep+1);
+		}
+	}
+}
+inline int Up(int a,int b){
+	if(deep[a]<deep[b]){
+		swap(a,b);
+	}
+	for(int i=20;i>=0;i--){
+		if(f[a][i]&&deep[f[a][i]]>=deep[b]){
+			a=f[a][i];
+		}
+	}
+	if(a==b){
+		return a;
+	}
+	for(int i=20;i>=0;i--){
+		if(f[a][i]&&f[a][i]^f[b][i]){
+			a=f[a][i];
+			b=f[b][i];
+		}
+	}
+	return f[a][0];
+}
+int main(){
+	scanf("%d%d%d",&n,&m,&s);
+	For(i,1,n-1){
+		scanf("%d%d",&u,&v);
+		add_edge(u,v);
+		add_edge(v,u);
+	}
+	dfs(s,0,1);
+	For(i,1,20){
+		For(j,1,n){
+			f[j][i]=f[f[j][i-1]][i-1];
+		}
+	}
+	For(i,1,m){
+		scanf("%d%d",&u,&v);
+		ans[i]=Up(u,v);
+	}
+	For(i,1,m){
+		printf("%d\n",ans[i]);
+	}
+	return 0;
+}
