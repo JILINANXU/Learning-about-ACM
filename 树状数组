@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define For(i,a,b) for(int i=(a);i<=(int)(b);i++)
+#define lowbit(x) x&-x;
+const int N=5e5+10;
+int n,m,a[N],tree[N],o,p,q;
+inline void update(int x,int k){
+	while(x<=n){
+		tree[x]+=k;
+		x+=lowbit(x);
+	}
+}
+inline int print(int l,int r){//用前缀和 
+	int suml=0;
+	while(l){
+		suml+=tree[l];
+		l-=lowbit(l);
+	}
+	int sumr=0;
+	while(r){
+		sumr+=tree[r];
+		r-=lowbit(r);
+	}
+	return sumr-suml;
+}
+int main(){
+	scanf("%d%d",&n,&m);
+	For(i,1,n){
+		scanf("%d",&a[i]);
+		update(i,a[i]);
+	}
+	For(i,1,m){
+		scanf("%d%d%d",&o,&p,&q);
+		if(o==1){
+			update(p,q);
+		}else{
+			printf("%d\n",print(p-1,q));
+		}
+	}
+	return 0;
+} 
