@@ -1,0 +1,69 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define For(i,a,b) for(int i=(a);i<=(int)(b);i++) 
+const int INF=2147483647,N=1e5+10,M=2e5+10;
+
+int n, m, s, u, v, w; // the question
+int vis[N], dis[N];  // the Dijkstra
+int head[N] = {0}, num_edge = 0; // the node
+
+struct Star
+{
+	int next, to, dis;
+	
+}star[M];
+
+priority_queue< pair<int, int> > Diss;
+
+void add_edge(int from, int to, int dis)
+{
+	star[++num_edge].next = head[from];
+	star[num_edge].to = to;
+	star[num_edge].dis = dis;
+	head[from] = num_edge;
+}
+
+void Dijkstra()
+{
+	memset(dis, 0x3f, sizeof(dis));
+	memset(vis, 0, sizeof(vis));
+	
+	Diss.push(make_pair(0, 1));
+	dis[1] = 0;
+	
+	while(Diss.size())
+	{
+		int k = Diss.top().second;
+		Diss.pop();
+		
+		if(vis[k]) continue;
+		vis[k] = true;
+		
+		for(int i=head[k]; i; i=star[i].next)
+		{
+			int x = star[i].to, y = star[i].dis;
+			
+			if(dis[x] > dis[k] + y)
+			{
+				dis[x] = dis[k] + y;
+				Diss.push(make_pair(-dis[x], x));
+			}
+		}
+	}
+}
+
+int main()
+{
+	scanf("%d%d%d",&n,&m,&s);
+	For(i, 1, m)
+	{
+		scanf("%d%d%d",&u,&v,&w);
+		add_edge(u, v, w);
+	}
+	Dijkstra();
+	For(i, 1, n)
+	{
+		printf("%d ",dis[i]);
+	}
+	return 0;
+}
