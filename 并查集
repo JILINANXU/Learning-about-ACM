@@ -1,0 +1,27 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define For(i,a,b) for(int i=(a);i<=(int)b;i++)
+#define ll long long
+const int N = 1e4+10;
+int f[N];
+int find(int x){
+	return x==f[x]?x:f[x]=find(f[x]);
+}
+int main(){
+	int n,m;
+	scanf("%d%d",&n,&m);
+	For(i,1,n){
+		f[i] = i;
+	}
+	For(tt,1,m){
+		int op,u,v;
+		scanf("%d%d%d",&op,&u,&v);
+		if(op==1){
+			f[find(u)] = find(v);
+		}else{
+			if(find(u)==find(v)) printf("Y\n");
+			else printf("N\n");
+		}
+	}
+	return 0;
+}
