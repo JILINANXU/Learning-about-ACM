@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define For(i,a,b) for(int i=(a);i<=(int)(b);i++)
+const int N=3e6+10;
+int n,a[N],b[N];
+stack<int> St;
+int main(){
+	scanf("%d",&n);
+	For(i,1,n){
+		scanf("%d",&a[i]);
+	}
+	for(int i = n; i >= 1; i--){
+		if(!St.empty()){
+			if(a[St.top()] > a[i]){
+				b[i]=St.top();
+				St.push(i);
+			}
+			else{
+				while(!St.empty() && a[St.top()] <= a[i]){
+					St.pop();
+				}
+				if(!St.empty())
+					b[i]=St.top();
+				else
+					b[i]=0;
+				St.push(i);
+			}
+		}
+		else{
+			b[i] = 0;
+			St.push(i);
+		}
+	}
+	For(i,1,n){
+		printf("%d ",b[i]);
+	}
+	return 0;
+}
